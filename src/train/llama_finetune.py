@@ -123,5 +123,5 @@ if __name__ == "__main__":
     parser.add_argument("--resume-dir", type=Path, default=None)
     parser.add_argument("--debug", action="store_true", default=False)
     args = parser.parse_args()
-    os.environ["WANDB_PROJECT"] = "CADFusion"
+    os.environ["WANDB_PROJECT"] = "CADFusion_SL"
     main(args)
