@@ -1,5 +1,5 @@
-train_data_path=/path/to/the/training/data
-test_data_path=/path/to/the/test/data
+train_data_path=data/sl_data/train.json
+test_data_path=data/sl_data/test.json
 run_name=$1
 temperature=0.9
 
@@ -16,11 +16,11 @@ else
     fi
 fi
 
-model_path=/<path/to/the/exp/folder>/exp/$1
-inference_path=/<path/to/the/exp/folder>/out/$run_name.jsonl
-visual_obj_path=/<path/to/the/exp/folder>/visual_obj/$run_name
-output_figure_path=/<path/to/the/exp/folder>/figures/$run_name
-log_path=/<path/to/the/exp/folder>/logs/$run_name/
+model_path=exp/model_ckpt/$1
+inference_path=exp/model_generation/$run_name.jsonl
+visual_obj_path=exp/visual_objects/$run_name
+output_figure_path=exp/figures/$run_name
+log_path=exp/logs/$run_name/
 
 mkdir $log_path
 

@@ -1,10 +1,11 @@
-# by default set it to CADFusion/data
-data_path=/your/path/to/data/folder
-# by default set it to CADFusion/exp
-exp_path=/your/path/to/exp/folder
+# set it to your data path
+data_path=data/sl_data
+# set it to your experiment path
+exp_path=exp/model_ckpt
 train_data=$data_path/train.json
 eval_data=$data_path/eval.json
 shuffle_dataset_between_x_epochs=2
+mkdir -p $exp_path
 
 # round 0
 accelerate launch --config_file ds_config.yaml src/train/llama_finetune.py --lora-rank 32 --lora-alpha 32 \

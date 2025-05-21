@@ -1,9 +1,9 @@
-# by default set it to CADFusion/data
-data_path=/your/path/to/data/folder
+# set it to your data path
+data_path=data/sl_data
 # by default set it to CADFusion/exp
-exp_path=/your/path/to/exp/folder
+exp_path=exp/model_ckpt
 # by default set it to CADFusion/data
-exp_path=/your/path/to/vf_data/folder
+vf_path=/data/vf_data
 train_data=$data_path/train.json
 eval_data=$data_path/eval.json
 
@@ -17,8 +17,8 @@ eval_data=$data_path/eval.json
 base_name=model_name_you_trained_for_SL_with_last_digit_removed
 
 run_name=${base_name}0
-CUDA_VISIBLE_DEVICES=0,1 ./scripts/inference.sh $run_name test "--full --device-map auto" &
-CUDA_VISIBLE_DEVICES=2,3 ./scripts/inference.sh $run_name train "--sample-len 1000 --device-map auto"
+CUDA_VISIBLE_DEVICES=0,1 ./scripts/generate_samples.sh $run_name test "--full --device-map auto" &
+CUDA_VISIBLE_DEVICES=2,3 ./scripts/generate_samples.sh $run_name train "--sample-len 1000 --device-map auto"
 wait
 
 ./scripts/make_dpo_data.sh $run_name --score-only &
@@ -37,9 +37,9 @@ do
     python src/train/dpo.py --run-name $dpo_run_name --pretrained-path $exp_path/$base_name$((LOOP-1)) --data-path $dpo_training_path --output-path $dpo_save_path
     python src/train/llama_finetune.py --num-epochs 1 --run-name $sft_run_name --data-path $train_data --eval-data-path $eval_data --eval-freq 3000 --pretrained-path $dpo_save_path --expdir $exp_path
     
-    CUDA_VISIBLE_DEVICES=0 ./scripts/inference.sh $dpo_run_name test "--full --device-map auto" &
-    CUDA_VISIBLE_DEVICES=1 ./scripts/inference.sh $run_name test "--full --device-map auto" &
-    CUDA_VISIBLE_DEVICES=2,3 ./scripts/inference.sh $run_name train "--sample-len 1000 --device-map auto"
+    CUDA_VISIBLE_DEVICES=0 ./scripts/generate_samples.sh $dpo_run_name test "--full --device-map auto" &
+    CUDA_VISIBLE_DEVICES=1 ./scripts/generate_samples.sh $run_name test "--full --device-map auto" &
+    CUDA_VISIBLE_DEVICES=2,3 ./scripts/generate_samples.sh $run_name train "--sample-len 1000 --device-map auto"
     wait
 
     ./scripts/make_dpo_data.sh $dpo_run_name --score-only &
