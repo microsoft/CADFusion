@@ -16,9 +16,17 @@ conda env create -f environments.yaml
 conda activate <env>
 ```
 
+TODO: add environment requirements.
+
 ## Data preparation
 We provide the human-annotated text-to-CAD dataset we used for training. If you want to train everything from scratch, please follow the instructions below.
 
+### From Scratch
+We provide a script to execute all the preprocessing steps until human annotation. 
+```
+./scripts/preprocess_skexgen.sh
+```
+If you want to customize the internal steps, expand the following section for more details.
 <details>
 <summary>Start from scratch (click to expand).</summary>
 
@@ -50,7 +58,7 @@ python3 src/data_preprocessing/captioning.py --image-folder-path <image_folder> 
 * We use openai and azure system for LLM calling. You are welcome to use your own LLMs and prompts by changing `line 21, 22` of `src/data_preprocessing/captioning.py` with your own client definition and function calls.
 </details>
 
-
+### From Our Preprocessed Data
 Our preprocessed and annotated dataset can be found in [TODO: data path](todo). For this repo, download the dataset and place it in `data/sl_data` folder. It should contain the following files:
 ```
 data/sl_data
