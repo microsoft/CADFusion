@@ -36,8 +36,6 @@ def ask_gpt_on_figure(data, _, __):
     description = data['description']
     data_scale = 10
     measurement = 'if the figure corresponds to the given description'
-    # potential alternative
-    #measurement = 'how likely the CAD is created by human'
 
     prompt = 'The following is a text description of a 3D CAD figure and an image of a CAD instance. ' +\
         f'Measure {measurement}, and give a score in the scale of {data_scale}. Do not comment on issues such as texture, smoothness and colors' +\
@@ -53,7 +51,6 @@ def ask_gpt_on_figure(data, _, __):
             ]}
         ]
     )
-    # print(response.choices[0].message.content)
     time.sleep(3)
     return(response.choices[0].message.content)
 

@@ -445,8 +445,8 @@ def parse3d_sample(point3d):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--in_path", type=str, required=True)
-    parser.add_argument("--out_path", type=str, required=True)
+    parser.add_argument("--in-path", type=str, required=True)
+    parser.add_argument("--out-path", type=str, required=True)
     args = parser.parse_args()
 
     # with open(args.in_path, "r") as f:
@@ -461,7 +461,12 @@ if __name__ == "__main__":
         try:
             cad_parser = CADparser(bit=6)
             # print(idx)
-            parsed_data = cad_parser.perform(item['output'])
+            if type(item) == str:
+                parsed_data = cad_parser.perform(item)
+            elif type(item) == dict:
+                parsed_data = cad_parser.perform(item['output'])
+            else:
+                raise ValueError("Invalid data type")
             out_path = os.path.join(args.out_path, str(idx).zfill(6))
             os.makedirs(out_path, exist_ok=True)
             if parsed_data is not None:
