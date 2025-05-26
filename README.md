@@ -1,22 +1,33 @@
 # CADFusion
 
-This repo is the official implementation of paper [Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models](https://arxiv.org/abs/2501.19054).
+
+This repo is the official implementation of paper **[ICML 2025] Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models** ([arXiv](https://arxiv.org/abs/2501.19054)) by *Ruiyu Wang, Yu Yuan, Shizhao Sun, Jiang Bian*.
 
 ## Installation
 
-- Create a conda environment and install all the dependencies.
+- Create a conda environment and install the generic dependencies.
 
 ```
-conda env create -f environments.yaml
+name=<your-env-name>
+conda create -n $name python=3.8
+conda activate $name
+python -m pip install -e .
 ```
 
-- After installation, activate the environment with
+- Install the additional dependencies for training.
 
 ```
-conda activate <env>
+python -m pip install -e .["train"]
 ```
 
-TODO: add environment requirements.
+- Install the additional dependencies for evaluation and rendering.
+
+```
+python -m pip install -e .["render"]
+conda install -c conda-forge pythonocc-core=7.7.0
+pip install git+https://github.com/otaheri/chamfer_distance@dc9987dcf70888d387d96893ba1fb9ba9a333992
+python -m pip install -e .["eval"]
+```
 
 ## Data preparation
 We provide the human-annotated text-to-CAD dataset we used for training. If you want to train everything from scratch, please follow the instructions below.
@@ -96,6 +107,7 @@ Use `scripts/generate_samples.sh`.
 ```
 ./scripts/generate_samples.sh <run_name> test --full
 ```
+You can find samples generated in `exp/model_generation/<run_name>.jsonl` and rendered figures under the `exp/figures/<run_name>` folder.
 
 ## Evaluation
-TBD...
+Use the functions in `src/test`.
