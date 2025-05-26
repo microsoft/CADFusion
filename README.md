@@ -70,7 +70,7 @@ python3 src/data_preprocessing/captioning.py --image-folder-path <image_folder> 
 </details>
 
 ### From Our Preprocessed Data
-Our preprocessed and annotated dataset can be found in [TODO: data path](todo). For this repo, download the dataset and place it in `data/sl_data` folder. It should contain the following files:
+Our preprocessed and annotated dataset can be found in [TODO: data path](todo). For this repo, download the dataset, unzip it, and place it in `data/sl_data` folder. It should contain the following files:
 ```
 data/sl_data
 ├── train.json
@@ -101,6 +101,12 @@ We provide a script for executing our alternate training round. See `scripts/alt
 ```
 ./scripts/alternate_VF.sh  # change the value of base_name in the script as instructed
 ```
+
+## Model Checkpoints
+We provide two model checkpoints: CADFusion v1.0 and v1.1. You can download them from the following links:
+- [TODO: CADFusion v1.0](TODO)
+- [TODO: CADFusion v1.1](TODO)
+You should unzip them and place them under the `exp/model_ckpt` folder for using.
 
 ## Inference & Visualization
 Use `scripts/generate_samples.sh`.
