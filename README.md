@@ -3,6 +3,10 @@
 
 This repo is the official implementation of paper **[ICML 2025] Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models** ([arXiv](https://arxiv.org/abs/2501.19054)) by *Ruiyu Wang, Yu Yuan, Shizhao Sun, Jiang Bian*.
 
+[Paper](https://arxiv.org/abs/2501.19054) | [Project Page](https://cadfusion-text2cad.github.io/) | [Huggingface](https://huggingface.co/papers/2501.19054)
+
+CADFusion is a text-to-CAD generation framework that leverages visual feedback to enhance the performance of large language models (LLMs) in generating CAD models from textual descriptions. It consists of two main components: sequential learning and visual learning. The sequential learning component fine-tunes LLMs on a text-to-CAD dataset, while the visual learning component alternates between training a visual feedback model and fine-tuning the LLM with the generated visual feedback.
+
 ## Installation
 
 - Create a conda environment and install the generic dependencies.
@@ -79,28 +83,31 @@ data/sl_data
 ```
 
 ## Sequential Learning
- - A normal training script on multiple GPUs is provided. Change `num_processes` in `ds_config.yaml` to specify how many GPUs will be used.
+We use the following script to train the sequential learning model.
+```
+./scripts/train_with_shuffling.sh <run_name>
+```
+
+You are also welcome to customize the training procedure. A normal training script on multiple GPUs is provided. Change `num_processes` in `ds_config.yaml` to specify how many GPUs will be used.
 ```
 CUDA_VISIBLE_DEVICES=<gpu_ids> accelerate launch --config_file ds_config.yaml src/train/llama_finetune.py \
     --num-epochs <num_epochs> --run-name <run_name> --data-path <train_data> --eval-data-path <eval_data> \
     --device-map accelerate --model-name llama3 --expdir <model_saving_path>
 ```
 
- - In our work we shuffle the dataset per x epochs. To train model with this implementation, use `scripts/train_with_shuffling.sh`.
-```
-./scripts/train_with_shuffling.sh <run_name>
-```
+In our work we shuffle the dataset per x epochs. To train model with this implementation, inspect and modify `scripts/train_with_shuffling.sh`.
+
 ## Visual Learning
+We provide a script for executing our alternate training round. See `scripts/alternate_VF.sh`.
+```
+./scripts/alternate_VF.sh  # change the value of base_name in the script as instructed
+```
 For an individual round of visual learning, run
 ```
 python src/train/dpo.py --run-name <dpo_run_name> --pretrained-path <pretrained_model_path> --data-path <dpo_data_Path> --output-path <model_saving_path>
 ```
 By default it runs dpo for 3 epochs, but you can change by adding flag `--num-epochs x`.
 
-We provide a script for executing our alternate training round. See `scripts/alternate_VF.sh`.
-```
-./scripts/alternate_VF.sh  # change the value of base_name in the script as instructed
-```
 
 ## Model Checkpoints
 We provide two model checkpoints: CADFusion v1.0 and v1.1. You can download them from the following links:
@@ -117,3 +124,25 @@ You can find samples generated in `exp/model_generation/<run_name>.jsonl` and re
 
 ## Evaluation
 Use the functions in `src/test`.
+
+## Acknowledgements
+We would like to acknowledge that the CAD rendering and distributional metrics in this repository is partially based on and adapted from the [SkexGen](https://github.com/samxuxiang/SkexGen) project.
+
+## Citation
+If you find our work useful, please cite the following paper
+```
+@article{wang2025texttocad,
+  title={Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models},
+  author={Wang, Ruiyu and Yuan, Yu and Sun, Shizhao and Bian, Jiang},
+  journal={arXiv preprint arXiv:2501.19054},
+  year={2025}
+}
+```
+<!-- @inproceedings{wang2025texttocad, 
+title     = {Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models},
+author    = {Wang, Ruiyu and Yuan, Yu and Sun, Shizhao and Bian, Jiang},
+booktitle = {International Conference on Machine Learning},
+pages={??},
+year={2025},
+organization={PMLR}
+} -->
