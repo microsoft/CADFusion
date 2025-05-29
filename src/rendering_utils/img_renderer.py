@@ -70,8 +70,8 @@ def main():
         j += 1
         try:
             shape = read_step_file(str(fn))
-            render(shape, output_path.joinpath(f'{j:06d}' + ".png"), args.width, args.height)
-            # render(shape, output_path.joinpath(fn.stem + ".png"), args.width, args.height)
+            # render(shape, output_path.joinpath(f'{j:06d}' + ".png"), args.width, args.height)
+            render(shape, output_path.joinpath(fn.stem[:6] + ".png"), args.width, args.height)
         except Exception as e:
             i += 1
             # raise e

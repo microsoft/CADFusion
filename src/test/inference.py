@@ -31,9 +31,9 @@ def conditional_sample(args):
     for item in tqdm(data):
         prompts = []
         for _ in range(args.num_samples):
-            prompt = ''  
+            prompt = 'Below is a description of a 3D shape:\n'
             prompt += item['description']  
-            prompt += '\nAnswer:\n'   
+            prompt += '\nGenerate a Computer-Aided Design(CAD) command sequence of the 3D shape:\n'     
 
             prompts.append(prompt)
 
@@ -70,7 +70,7 @@ def conditional_sample(args):
                 result = {
                     'index': global_count,
                     # 'pic_name': item['pic_name'],
-                    'ground_truth': item['ground_truth'],
+                    'ground_truth': item['command_sequence'],
                     'description': item['description'],
                     'prompt': prompt,
                     'output': output[len(prompt):]

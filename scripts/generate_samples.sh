@@ -20,20 +20,21 @@ model_path=exp/model_ckpt/$1
 inference_path=exp/model_generation/$run_name.jsonl
 visual_obj_path=exp/visual_objects/$run_name
 output_figure_path=exp/figures/$run_name
-log_path=exp/logs/$run_name/
+log_path=exp/logs/$run_name
 
 mkdir $log_path
 
 echo "--------------------Inferencing--------------------" > $log_path/inference.txt
 rm $inference_path
-python3 test/inference.py --pretrained-path $model_path --in-path $data_path --out-path $inference_path --num-samples 5 --temperature $temperature --model-name llama3 > $log_path/inference.txt $3
+python3 src/test/inference.py --pretrained-path $model_path --in-path $data_path --out-path $inference_path --num-samples 5 --temperature $temperature --model-name llama3 > $log_path/inference.txt $3
 
 echo "--------------------Parsing CAD objects--------------------" > $log_path/parsing_cad.txt
 rm -rf $visual_obj_path
-python3 src/rendering_utils/parser.py --in_path $inference_path --out_path $visual_obj_path > $log_path/parsing_cad.txt
+python3 src/rendering_utils/parser.py --in-path $inference_path --out-path $visual_obj_path > $log_path/parsing_cad.txt
 
 echo "--------------------Parsing visual objects--------------------" > $log_path/parsing_visual.txt
-timeout 180 src/rendering_utils/parser_visual.py --data_folder $visual_obj_path > $log_path/parsing_visual.txt
+python3 src/rendering_utils/parser_visual.py --data_folder $visual_obj_path > $log_path/parsing_visual.txt
+python3 src/rendering_utils/ptl_sampler.py --in_dir $visual_obj_path --out_dir ptl > $log_path/sampling_ptl.out
 
 echo "--------------------Rendering--------------------" > $log_path/rendering.txt
 rm -rf $output_figure_path
