@@ -3,7 +3,7 @@ data_path=data/sl_data
 # set it to your experiment path
 exp_path=exp/model_ckpt
 train_data=$data_path/train.json
-eval_data=$data_path/eval.json
+eval_data=$data_path/val.json
 shuffle_dataset_between_x_epochs=2
 mkdir -p $exp_path
 
