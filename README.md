@@ -82,6 +82,9 @@ data/sl_data
 ├── test.json
 ```
 
+### VF Data
+The VF dataset is generated from automatically from the VF pipeline described in the Visual Learning section. We do not recommend using previously generated VF data, as the policy update should depend on its own generations. We do provide an example of the VF data format [TODO: data path](todo) which you can inspect the formatting by unzipping it and placing it under `data/vf_data/example_vf_data.json`. You can use this as a template for your own VF data if you want to add pairs manually.
+
 ## Sequential Learning
 We use the following script to train the sequential learning model.
 ```
@@ -102,6 +105,8 @@ We provide a script for executing our alternate training round. See `scripts/alt
 ```
 ./scripts/alternate_VF.sh  # change the value of base_name in the script as instructed
 ```
+We also provide a script for training on multiple gpus for saving time: `scripts/alternate_VF.sh`. In our setting, we use 4 GPUs for training. You can change the script to use more GPUs if you have them available.
+
 For an individual round of visual learning, run
 ```
 python src/train/dpo.py --run-name <dpo_run_name> --pretrained-path <pretrained_model_path> --data-path <dpo_data_Path> --output-path <model_saving_path>
