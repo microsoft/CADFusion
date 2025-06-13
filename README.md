@@ -74,12 +74,19 @@ python3 src/data_preprocessing/captioning.py --image-folder-path <image_folder> 
 </details>
 
 ### From Our Preprocessed Data
-Our preprocessed and annotated dataset can be found in [TODO: data path](todo). For this repo, download the dataset, unzip it, and place it in `data/sl_data` folder. It should contain the following files:
+Our preprocessed and annotated dataset can be found in `data/sl_data/sl_data.zip`. It should contain the following files after unzipping:
 ```
 data/sl_data
 ├── train.json
 ├── val.json
 ├── test.json
+```
+We could only provide the human annotations and the data ids corresponding to the original SkexGen data. To use our preprocessed data, you need to download the SkexGen data, unzip it as the reference dataset and run the convertion script to generate the CAD sequences for training. In detail, run the following command:
+```
+# make sure you are in the root directory of this repo and have the sl data unzipped and placed correctly
+gdown --id 1so_CCGLIhqGEDQxMoiR--A4CQk4MjuOp 
+unzip cad_data.zip
+python3 data/sl_data/convert.py
 ```
 
 ### VF Data
