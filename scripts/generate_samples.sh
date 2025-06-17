@@ -22,7 +22,8 @@ visual_obj_path=exp/visual_objects/$run_name
 output_figure_path=exp/figures/$run_name
 log_path=exp/logs/$run_name
 
-mkdir $log_path
+mkdir -p $log_path
+mkdir -p exp/model_generation
 
 echo "--------------------Inferencing--------------------" > $log_path/inference.txt
 rm $inference_path
