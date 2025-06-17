@@ -39,7 +39,7 @@ We introduce how to prepare the training data for these two stages in the below.
 
 ### Data for Sequential Learning
 
-#### Approach 1: Use Existing Human-Annotated Textual Descriptions
+#### Approach 1: use human-annotated textual descriptions provided by us
 We provide human-annoated textual descriptions and their correspoding CAD model IDs in [Skexgen](https://github.com/samxuxiang/SkexGen) under `data/sl_data/sl_data.zip`. It should contain the following files after unzipping:
 ```
 data/sl_data
@@ -56,7 +56,7 @@ python3 data/sl_data/convert.py
 ```
 The `train.json`, `val.json` and `test.json` under `data/sl_data` are the datasets.
 
-#### Approach 2: Create Human-Annotated Textual Descriptions by Yourself
+#### Approach 2: create human-annotated textual descriptions by yourself
 We provide a script to execute all the preprocessing steps until human annotation. 
 ```
 ./scripts/preprocess_skexgen.sh
@@ -96,10 +96,15 @@ python3 src/data_preprocessing/captioning.py --image-folder-path <image_folder> 
 
 ### Data for Visual Feedback
 
-The VF dataset is generated from automatically from the VF pipeline described in the Visual Learning section. We do not recommend using previously generated VF data, as the policy update should depend on its own generations. We do provide an example of the VF data format [TODO: data path](todo) which you can inspect the formatting by unzipping it and placing it under `data/vf_data/example_vf_data.json`. You can use this as a template for your own VF data if you want to add pairs manually.
+The Visual Feedback dataset should be automatically generated from the Visual Feedback pipeline described in the Training section. 
+We provide an example under `data/vf_data/example_vf_data.json` to help people understand how it should look like.
+We do not recommend using this example data as the training data, as the policy update should depend on its own generations.
 
-## Sequential Learning
-We use the following script to train the sequential learning model.
+
+## Training 
+Our training receipe contains two parts. In the first part, we conduct initial sequential learning. In the second part, we conduct alternate training between sequential learning and visual feedback.
+### Initial Sequential Learning
+We use the following script to train the model in the sequential learning stage.
 ```
 ./scripts/train_with_shuffling.sh <run_name>
 ```
@@ -113,14 +118,14 @@ CUDA_VISIBLE_DEVICES=<gpu_ids> accelerate launch --config_file ds_config.yaml sr
 
 In our work we shuffle the dataset per x epochs. To train model with this implementation, inspect and modify `scripts/train_with_shuffling.sh`.
 
-## Visual Learning
+### Alternate Training between Sequential Learning and Visual Feedback
 We provide a script for executing our alternate training round. See `scripts/alternate_VF.sh`.
 ```
 ./scripts/alternate_VF.sh  # change the value of base_name in the script as instructed
 ```
 We also provide a script for training on multiple gpus for saving time: `scripts/alternate_VF.sh`. In our setting, we use 4 GPUs for training. You can change the script to use more GPUs if you have them available.
 
-For an individual round of visual learning, run
+If you only want to conduct a single round of visual learning, run
 ```
 python src/train/dpo.py --run-name <dpo_run_name> --pretrained-path <pretrained_model_path> --data-path <dpo_data_Path> --output-path <model_saving_path>
 ```
@@ -128,10 +133,13 @@ By default it runs dpo for 3 epochs, but you can change by adding flag `--num-ep
 
 
 ## Model Checkpoints
-We provide two model checkpoints: CADFusion v1.0 and v1.1. You can download them from the following links:
-- [TODO: CADFusion v1.0](TODO)
-- [TODO: CADFusion v1.1](TODO)
-You should unzip them and place them under the `exp/model_ckpt` folder for using.
+We provide two versions. 
+v1.0 has 5 rounds of alternate training and is used for evaluation in our paper.
+v1.1 has 9 rounds of alternate training and is considered to have better performance than v1.0.
+- [CADFusion v1.0](https://huggingface.co/microsoft/CADFusion/upload/main/v1_0)
+- [CADFusion v1.1](https://huggingface.co/microsoft/CADFusion/upload/main/v1_1)
+
+You should download, unzip and place them under the `exp/model_ckpt` folder for using.
 
 ## Inference & Visualization
 Use `scripts/generate_samples.sh`.
@@ -149,18 +157,10 @@ We would like to acknowledge that the CAD rendering and distributional metrics i
 ## Citation
 If you find our work useful, please cite the following paper
 ```
-@article{wang2025texttocad,
-  title={Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models},
-  author={Wang, Ruiyu and Yuan, Yu and Sun, Shizhao and Bian, Jiang},
-  journal={arXiv preprint arXiv:2501.19054},
+@inproceedings{wang2025texttocad, 
+  title = {Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models},
+  author = {Wang, Ruiyu and Yuan, Yu and Sun, Shizhao and Bian, Jiang},
+  booktitle = {International Conference on Machine Learning},
   year={2025}
 }
 ```
-<!-- @inproceedings{wang2025texttocad, 
-title     = {Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models},
-author    = {Wang, Ruiyu and Yuan, Yu and Sun, Shizhao and Bian, Jiang},
-booktitle = {International Conference on Machine Learning},
-pages={??},
-year={2025},
-organization={PMLR}
-} -->
