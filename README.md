@@ -1,9 +1,9 @@
 # CADFusion
 
 
-This repo is the official implementation of paper **[ICML 2025] Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models** ([arXiv](https://arxiv.org/abs/2501.19054)) by *Ruiyu Wang, Yu Yuan, Shizhao Sun, Jiang Bian*.
+This repo is the official implementation of paper **[ICML 2025] Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models** by *Ruiyu Wang, Yu Yuan, Shizhao Sun, Jiang Bian*.
 
-[Paper](https://arxiv.org/abs/2501.19054) | [Project Page](https://cadfusion-text2cad.github.io/) | [Huggingface](https://huggingface.co/papers/2501.19054)
+[Paper](https://arxiv.org/abs/2501.19054) | [Video](https://www.youtube-nocookie.com/embed/LK8LAzR0v5M?si=FD1Vg9wjkROTKjDV) | [Huggingface](https://huggingface.co/microsoft/CADFusion)
 
 CADFusion is a text-to-CAD generation framework that leverages visual feedback to enhance the performance of large language models (LLMs) in generating CAD models from textual descriptions. It consists of two main components: sequential learning and visual learning. The sequential learning component fine-tunes LLMs on a text-to-CAD dataset, while the visual learning component alternates between training a visual feedback model and fine-tuning the LLM with the generated visual feedback.
 
@@ -33,10 +33,30 @@ pip install git+https://github.com/otaheri/chamfer_distance@dc9987dcf70888d387d9
 python -m pip install -e .["eval"]
 ```
 
-## Data preparation
-We provide the human-annotated text-to-CAD dataset we used for training. If you want to train everything from scratch, please follow the instructions below.
+## Data Preparation
+CADFusion is trained by alternating the **Sequential Learning (SL)** stage and the **Visual Feedback (VF)** stage.
+We introduce how to prepare the training data for these two stages in the below.
 
-### From Scratch
+### Data for Sequential Learning
+
+#### Approach 1: Use Existing Human-Annotated Textual Descriptions
+We provide human-annoated textual descriptions and their correspoding CAD model IDs in [Skexgen](https://github.com/samxuxiang/SkexGen) under `data/sl_data/sl_data.zip`. It should contain the following files after unzipping:
+```
+data/sl_data
+├── train.json
+├── val.json
+├── test.json
+```
+To use our annotated data, download the SkexGen data, unzip it as the reference dataset and run the convertion script to get the dataset. In detail, run the following command:
+```
+# make sure you are in the root directory of this repo and have the 'data/sl_data/sl_data.zip' unzipped
+gdown --id 1so_CCGLIhqGEDQxMoiR--A4CQk4MjuOp 
+unzip cad_data.zip
+python3 data/sl_data/convert.py
+```
+The `train.json`, `val.json` and `test.json` under `data/sl_data` are the datasets.
+
+#### Approach 2: Create Human-Annotated Textual Descriptions by Yourself
 We provide a script to execute all the preprocessing steps until human annotation. 
 ```
 ./scripts/preprocess_skexgen.sh
@@ -73,23 +93,9 @@ python3 src/data_preprocessing/captioning.py --image-folder-path <image_folder> 
 * We use openai and azure system for LLM calling. You are welcome to use your own LLMs and prompts by changing `line 21, 22` of `src/data_preprocessing/captioning.py` with your own client definition and function calls.
 </details>
 
-### From Our Preprocessed Data
-Our preprocessed and annotated dataset can be found in `data/sl_data/sl_data.zip`. It should contain the following files after unzipping:
-```
-data/sl_data
-├── train.json
-├── val.json
-├── test.json
-```
-We could only provide the human annotations and the data ids corresponding to the original SkexGen data. To use our preprocessed data, you need to download the SkexGen data, unzip it as the reference dataset and run the convertion script to generate the CAD sequences for training. In detail, run the following command:
-```
-# make sure you are in the root directory of this repo and have the sl data unzipped and placed correctly
-gdown --id 1so_CCGLIhqGEDQxMoiR--A4CQk4MjuOp 
-unzip cad_data.zip
-python3 data/sl_data/convert.py
-```
 
-### VF Data
+### Data for Visual Feedback
+
 The VF dataset is generated from automatically from the VF pipeline described in the Visual Learning section. We do not recommend using previously generated VF data, as the policy update should depend on its own generations. We do provide an example of the VF data format [TODO: data path](todo) which you can inspect the formatting by unzipping it and placing it under `data/vf_data/example_vf_data.json`. You can use this as a template for your own VF data if you want to add pairs manually.
 
 ## Sequential Learning
