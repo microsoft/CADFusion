@@ -152,8 +152,7 @@ You can find samples generated in `exp/model_generation/<run_name>.jsonl` and re
 ## Evaluation
 Use the functions in `src/test`. This includes the Chamfer Distance (`chamfer_dist.py`), Minimum Matching Distance, Coverage, Jensen-Shannon Divergence (`dist_eval.py`), and the VLM score (`VLM_score.py`).
 
-### VLM Score
-We use Azure TRAPI to access the GPT-4o model for scoring the CAD objects. 
+For VLM Score, we use Azure OpenAI API to access the GPT-4o model for scoring the CAD objects. 
 In this way, you should log in your own azure account before using this module.
 If your are using other LLM/VLM service and feel difficult to adapt to our setup, we provide the prompt in the python module that is available for you to integrate into your own testing pipeline.
 
@@ -172,3 +171,24 @@ If you find our work useful, please cite the following paper
   year={2025}
 }
 ```
+## Contributing
+
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+
+When you submit a pull request, a CLA bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Trademarks
+
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
+trademarks or logos is subject to and must follow 
+[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
+Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
+Any use of third-party trademarks or logos are subject to those third-party's policies.
