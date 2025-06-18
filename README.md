@@ -150,7 +150,14 @@ Use `scripts/generate_samples.sh`.
 You can find samples generated in `exp/model_generation/<run_name>.jsonl` and rendered figures under the `exp/figures/<run_name>` folder.
 
 ## Evaluation
-Use the functions in `src/test`.
+Use the functions in `src/test`. This includes the Chamfer Distance (`chamfer_dist.py`), Minimum Matching Distance, Coverage, Jensen-Shannon Divergence (`dist_eval.py`), and the VLM score (`VLM_score.py`).
+
+### VLM Score
+We use Azure TRAPI to access the GPT-4o model for scoring the CAD objects. 
+In this way, you should log in your own azure account before using this module.
+If your are using other LLM/VLM service and feel difficult to adapt to our setup, we provide the prompt in the python module that is available for you to integrate into your own testing pipeline.
+
+### 
 
 ## Acknowledgements
 We would like to acknowledge that the CAD rendering and distributional metrics in this repository is partially based on and adapted from the [SkexGen](https://github.com/samxuxiang/SkexGen) project.
