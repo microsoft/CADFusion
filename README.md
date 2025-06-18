@@ -137,8 +137,8 @@ By default it runs dpo for 3 epochs, but you can change by adding flag `--num-ep
 We provide two versions. 
 v1.0 has 5 rounds of alternate training and is used for evaluation in our paper.
 v1.1 has 9 rounds of alternate training and is considered to have better performance than v1.0.
-- [CADFusion v1.0](https://huggingface.co/microsoft/CADFusion/upload/main/v1_0)
-- [CADFusion v1.1](https://huggingface.co/microsoft/CADFusion/upload/main/v1_1)
+- [CADFusion v1.0](https://huggingface.co/microsoft/CADFusion/tree/main/v1_0)
+- [CADFusion v1.1](https://huggingface.co/microsoft/CADFusion/tree/main/v1_1)
 
 You should download, unzip and place them under the `exp/model_ckpt` folder for using.
 
