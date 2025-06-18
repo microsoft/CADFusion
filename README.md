@@ -98,6 +98,7 @@ python3 src/data_preprocessing/captioning.py --image-folder-path <image_folder> 
 
 The Visual Feedback dataset should be automatically generated from the Visual Feedback pipeline described in the Training section. 
 We provide an example under `data/vf_data/example_vf_data.json` to help people understand how it should look like.
+You can retrieve this file by unzipping `example_vf_data.zip`.
 We do not recommend using this example data as the training data, as the policy update should depend on its own generations.
 
 
@@ -123,7 +124,7 @@ We provide a script for executing our alternate training round. See `scripts/alt
 ```
 ./scripts/alternate_VF.sh  # change the value of base_name in the script as instructed
 ```
-We also provide a script for training on multiple gpus for saving time: `scripts/alternate_VF.sh`. In our setting, we use 4 GPUs for training. You can change the script to use more GPUs if you have them available.
+We also provide a script for training on multiple gpus for saving time: `scripts/alternate_VF_quadra_gpu.sh`. In our setting, we use 4 GPUs for training. You can change the script to use more GPUs if you have them available.
 
 If you only want to conduct a single round of visual learning, run
 ```
