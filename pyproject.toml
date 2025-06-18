@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "CADFusion"
+version = "1.0.0"
+description = "Enhancing Text-to-CAD generation via sequential learning and visual feedback."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = [
+    "torch==2.3.0",
+    "transformers==4.45.0",
+    "huggingface_hub==0.25.1",
+    "peft==0.9.0",
+    "accelerate==0.28.0",
+    "psutil==5.9.8",
+    "pillow==10.4.0",
+    "datasets==3.1.0",
+    "trl==0.11.4"
+]
+
+[project.optional-dependencies]
+train = ["wandb==0.16.4", "deepspeed==0.13.0"]
+render = ["trimesh==4.4.9", "plyfile==1.0.3"]
+eval = ["openai==1.75.0", "azure-identity==1.21.0", "scikit-learn==1.3.2"]
+build = ["build", "twine"]
+
+[tool.setuptools.packages.find]
+exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*"]
+
+[tool.wheel]
+exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*"]
