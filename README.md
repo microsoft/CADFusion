@@ -147,7 +147,7 @@ Use `scripts/generate_samples.sh`.
 ```
 ./scripts/generate_samples.sh <run_name> test --full
 ```
-You can find samples generated in `exp/model_generation/<run_name>.jsonl` and rendered figures under the `exp/figures/<run_name>` folder.
+You can find samples generated in `exp/model_generation/<run_name>.jsonl` and rendered figures under the `exp/figures/<run_name>` folder. The point clouds, .obj files, .step and .stl files are saved under `exp/visual_objects/<run_name>` directory for your own usage and evaluation.
 
 ## Evaluation
 Use the functions in `src/test`. This includes the Chamfer Distance (`chamfer_dist.py`), Minimum Matching Distance, Coverage, Jensen-Shannon Divergence (`dist_eval.py`), and the VLM score (`VLM_score.py`).
