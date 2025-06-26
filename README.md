@@ -13,7 +13,7 @@ CADFusion is a text-to-CAD generation framework that leverages visual feedback t
 
 ```
 name=<your-env-name>
-conda create -n $name python=3.8
+conda create -n $name python=3.9
 conda activate $name
 python -m pip install -e .
 ```
@@ -29,7 +29,7 @@ python -m pip install -e .["train"]
 ```
 python -m pip install -e .["render"]
 conda install -c conda-forge pythonocc-core=7.7.0
-pip install git+https://github.com/otaheri/chamfer_distance@dc9987dcf70888d387d96893ba1fb9ba9a333992
+python -m pip install git+https://github.com/otaheri/chamfer_distance@dc9987dcf70888d387d96893ba1fb9ba9a333992
 python -m pip install -e .["eval"]
 ```
 
