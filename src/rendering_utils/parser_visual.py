@@ -93,12 +93,18 @@ def run_parallel(project_folder):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_folder", type=str, required=True)
+    parser.add_argument("--single-file", action='store_true', default=False)
     args = parser.parse_args()
 
-    solids = []
-    # cad_folders = sorted(glob(args.data_folder+'/*'))[50000:] # why after 50000?
-    cad_folders = sorted(glob(args.data_folder+'/*'))
-    # print("len of cad_folder:", len(cad_folders))
-    convert_iter = Pool(NUM_TRHEADS).imap(run_parallel, cad_folders) 
-    for solid in tqdm(convert_iter, total=len(cad_folders)):
-        pass
+    if args.single_file:
+    # If single file, just run the function on that file
+        run_parallel(args.data_folder)
+        exit(0)
+    else:
+        solids = []
+        # cad_folders = sorted(glob(args.data_folder+'/*'))[50000:] # why after 50000?
+        cad_folders = sorted(glob(args.data_folder+'/*'))
+        # print("len of cad_folder:", len(cad_folders))
+        convert_iter = Pool(NUM_TRHEADS).imap(run_parallel, cad_folders) 
+        for solid in tqdm(convert_iter, total=len(cad_folders)):
+            pass

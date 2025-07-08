@@ -45,6 +45,7 @@ class SamplePoints:
         parser = argparse.ArgumentParser(description='Scale a set of meshes stored as OFF files.')
         parser.add_argument('--in_dir', type=str, help='Path to input directory.')
         parser.add_argument('--out_dir', type=str, help='Path to output directory; files within are overwritten!')
+        parser.add_argument("--single-file", action='store_true', default=False)
         return parser
 
 
@@ -72,11 +73,14 @@ class SamplePoints:
         """
         Run simplification.
         """
-        project_folders = sorted(glob(self.options.in_dir+'/*/'))
-        num_cpus = multiprocessing.cpu_count()
-        convert_iter =  multiprocessing.Pool(num_cpus).imap(self.run_parallel, project_folders) 
-        for _ in tqdm(convert_iter, total=len(project_folders)):
-            pass
+        if self.options.single_file:
+            self.run_parallel(self.options.in_dir)
+        else:
+            project_folders = sorted(glob(self.options.in_dir+'/*/'))
+            num_cpus = multiprocessing.cpu_count()
+            convert_iter =  multiprocessing.Pool(num_cpus).imap(self.run_parallel, project_folders) 
+            for _ in tqdm(convert_iter, total=len(project_folders)):
+                pass
        
 
 if __name__ == '__main__':
