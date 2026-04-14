@@ -22,7 +22,7 @@ dependencies = [
     "pillow==10.4.0",
     "datasets==3.1.0",
     "trl==0.11.4",
-    "gdown==5.2.0"
+    "gdown==5.2.2"
 ]
 
 [project.optional-dependencies]
